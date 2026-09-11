@@ -7,7 +7,7 @@
   <meta name="description" content="BHH Drug Allergy Assessment — ADR, drug allergy phenotype, timeline and causality assessment." />
   <meta name="referrer" content="no-referrer" />
   <meta name="robots" content="noindex,nofollow,noarchive" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <title>BHH Drug Allergy Assessment</title>
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="stylesheet" href="assets/styles.css" />
@@ -29,8 +29,9 @@
   </div>
 </header>
 <div class="privacy-banner"><strong data-i18n="privacyTitle">Privacy-first session</strong><span data-i18n="privacyText">Patient data is kept in memory only. Export JSON before closing or refreshing.</span></div>
+<div class="app-mode-tabs" role="tablist" aria-label="Workspace"><button class="app-mode-tab active" type="button" role="tab" aria-selected="true" data-app-tab="clinical" data-i18n="clinicalTab">Clinical Assessment</button><button class="app-mode-tab" type="button" role="tab" aria-selected="false" data-app-tab="drugdb" data-i18n="drugDbTab">Drug Database</button></div>
 
-<main class="app-shell" id="workspace">
+<main class="app-shell" id="workspace" data-app-panel="clinical">
   <aside class="sidebar">
     <div class="case-chip"><span>Case ID</span><strong id="caseChip">-</strong></div>
     <nav class="step-nav">
@@ -116,6 +117,26 @@
     </section>
   </div>
 </main>
+
+<main class="drugdb-workspace" id="drugDbWorkspace" data-app-panel="drugdb" hidden>
+  <section class="drugdb-hero">
+    <div><p class="eyebrow">BHH PHARMACY · MASTER DATA</p><h2 data-i18n="drugDbTitle">Drug Database</h2><p data-i18n="drugDbHelp">Separate workspace for Generic name master data. Clinical cases are not stored here.</p></div>
+    <div class="hero-stats"><div><strong id="drugDbCount">0</strong><span data-i18n="activeGenerics">Active generics</span></div><div><strong id="drugDbLocalCount">0</strong><span data-i18n="localChanges">Local additions</span></div><div><strong id="drugDbInactiveCount">0</strong><span data-i18n="inactiveGenerics">Inactive</span></div></div>
+  </section>
+  <section class="card drugdb-admin-card">
+    <div class="card-head"><div><h3 data-i18n="drugDbAdmin">Database administration</h3><p data-i18n="drugDbAdminHelp">Editing requires a local PIN. The PIN is an accidental-edit guard, not authentication.</p></div><div class="button-row"><span id="drugDbLockState" class="badge concomitant"></span><button class="btn btn-secondary btn-small" id="drugDbUnlockBtn" type="button"></button></div></div>
+    <div id="drugDbLoadError" class="module-warning top-gap" hidden></div>
+    <div class="drugdb-toolbar top-gap"><label class="drugdb-search"><span data-i18n="searchDrugDb">Search Generic / product</span><input id="drugDbSearch" autocomplete="off" placeholder="amoxicillin"></label><label class="check-row compact"><input id="drugDbShowInactive" type="checkbox"><span data-i18n="showInactive">Show inactive</span></label><div class="button-row"><button class="btn btn-primary" id="drugDbAddBtn" type="button" disabled>+ <span data-i18n="addGeneric">Add generic</span></button><button class="btn btn-ghost" id="drugDbExportMergedBtn" type="button" data-i18n="exportMergedDb">Export merged DB</button></div></div>
+    <div class="drugdb-secondary-actions"><span id="drugDbResultMeta"></span><div class="button-row"><button class="btn btn-ghost btn-small" id="drugDbExportChangesBtn" type="button" data-i18n="exportDbChanges">Export changes</button><button class="btn btn-ghost btn-small" id="drugDbImportChangesBtn" type="button" disabled data-i18n="importDbChanges">Import changes</button><button class="btn btn-danger-soft btn-small" id="drugDbResetBtn" type="button" disabled data-i18n="resetLocalDb">Reset local changes</button></div></div>
+    <input type="file" id="drugDbFileInput" accept=".json,application/json" hidden>
+  </section>
+  <section id="drugDbList" class="drugdb-list"></section>
+  <section class="clinical-note"><strong data-i18n="drugDbStorageTitle">Storage model</strong><span data-i18n="drugDbStorageText">The BHH master JSON is read-only on GitHub Pages. Add/edit/remove actions are stored as local browser overrides and can be exported for central master-data review.</span></section>
+</main>
+
+<datalist id="genericDrugOptions"></datalist>
+<datalist id="routeOptions"><option value="PO"><option value="IV"><option value="IM"><option value="SC"><option value="ID"><option value="SL"><option value="PR"><option value="PV"><option value="TOP"><option value="INH"><option value="NEB"><option value="IN"><option value="OPH"><option value="OTIC"></datalist>
+<datalist id="frequencyOptions"><option value="OD"><option value="BID"><option value="TID"><option value="QID"><option value="q4h"><option value="q6h"><option value="q8h"><option value="q12h"><option value="HS"><option value="PRN"><option value="STAT"><option value="Once"></datalist>
 
 <dialog id="formDialog"><form method="dialog" id="dialogForm" novalidate><div class="dialog-head"><div><p class="section-kicker" id="dialogKicker"></p><h2 id="dialogTitle"></h2></div><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><div id="dialogFeedback" class="dialog-feedback" role="alert" aria-live="assertive" hidden></div><div id="dialogBody"></div><div class="dialog-actions"><button class="btn btn-ghost" value="cancel" data-i18n="cancel">Cancel</button><button class="btn btn-primary" id="dialogSave" value="default" type="button" data-i18n="save">Save</button></div></form></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

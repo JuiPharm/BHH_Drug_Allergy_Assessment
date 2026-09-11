@@ -80,3 +80,13 @@ Recommended repository name: `BHH_Drug_Allergy_Assessment`.
 - `DEPLOY_GUIDE_TH.md` — Thai deployment instructions.
 - `REVIEW_CHECKLIST.md` — pharmacist/developer production UAT.
 - `CHANGELOG.md` — release notes.
+
+## Drug Database (v1.0.3)
+
+The application includes a separate Drug Database tab backed by `assets/data/drug-master.json`. The initial database was generated from `Drug list Update 10092026.xls` using the existing `GenercName` column without attempting to infer Generic names from product text.
+
+Medication entry uses an editable searchable Generic-name field. Pharmacists can select a BHH database name or type any Generic name manually when it is not present.
+
+Database editing is read-only until locally unlocked with a 4–8 digit PIN. On first use, an authorized user creates the PIN for that browser/device. Local add/edit/remove changes do not modify GitHub Pages files; they are stored as non-patient browser overrides. Use **Export merged DB** or **Export changes** for controlled central master-data updates.
+
+> The PIN is a UX/admin guard, not secure authentication. For synchronized centrally controlled editing across users/devices, a backend with authentication and authorization is required.

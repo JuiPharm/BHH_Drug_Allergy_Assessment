@@ -29,3 +29,11 @@ GitHub Pages does not provide application-level user authentication or hospital 
 
 ## Not a medical-device certification statement
 The software implements decision-support algorithms and validation guardrails. A successful software build does not itself constitute regulatory, clinical-governance, PDPA, or medical-device approval.
+
+## Drug Database PIN (v1.0.3)
+
+The Drug Database administration PIN protects only local browser editing actions. It is not server-side authentication, RBAC or cryptographic access control. The PIN is stored as a salted SHA-256 hash; the clear-text PIN is not persisted. Clearing browser storage can remove the local PIN and local database overrides.
+
+Drug Database localStorage contains non-patient master-data changes only. HN, diagnoses, medication exposure, ADR events, Naranjo assessments and pharmacist conclusions remain excluded from persistent browser storage.
+
+CSP allows `connect-src 'self'` solely so the application can fetch `assets/data/drug-master.json` from the same GitHub Pages origin. External application endpoints remain disallowed.

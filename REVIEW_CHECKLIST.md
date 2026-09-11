@@ -91,3 +91,18 @@
 - [ ] เมื่อ validation ผิด ช่องที่เกี่ยวข้องต้องถูก highlight และ focus ที่ช่องแรก
 - [ ] ทดสอบ validation แบบเดียวกันใน Medication, Allergy History, Final Conclusion และ Optional Clinical Modules
 - [ ] เปิด record เดิม แก้ให้ไม่ valid แล้วกด Cancel: ข้อมูลที่บันทึกไว้เดิมต้องไม่เปลี่ยน
+
+## Drug Database UAT (v1.0.3)
+
+- [ ] Switch to Drug Database tab without disturbing current clinical case data.
+- [ ] Search `Amoxicillin` and confirm source product records are visible.
+- [ ] Add Medication and select a Generic name from the database.
+- [ ] Add Medication using a Generic name that is not in the database and confirm it saves as manual entry.
+- [ ] Confirm Drug Database editing controls are disabled while locked.
+- [ ] First use: create a 4–8 digit PIN; lock; confirm an incorrect PIN cannot unlock; confirm the correct PIN can unlock.
+- [ ] Add a local Generic name; confirm it immediately appears in Medication Generic-name suggestions.
+- [ ] Edit a master Generic name locally and confirm master source file itself is unchanged.
+- [ ] Remove a master Generic locally; enable Show inactive; restore it.
+- [ ] Export changes and Export merged DB; verify JSON files contain no patient information.
+- [ ] Import previously exported changes after unlocking.
+- [ ] Reset local changes and confirm BHH master entries return to baseline.

@@ -1,7 +1,7 @@
 import {emptyNaranjoAnswers,NARANJO_VERSION} from './naranjo.js';
 
 export const APP_NAME='BHH Drug Allergy Assessment';
-export const APP_VERSION='1.0.2';
+export const APP_VERSION='1.0.3';
 export const SCHEMA_VERSION='1.0.0';
 
 export function makeId(prefix){
@@ -26,10 +26,10 @@ export function createEmptyCase(){
 }
 export function createDiagnosis(text=''){return {id:makeId('dx'),text}}
 export function createAllergy(seed={}){return {id:makeId('allergy'),drug:'',reaction:'',approxDate:'',severity:'',previousExposure:'',comment:'',...seed}}
-export function createMedication(seed={}){return {id:makeId('drug'),genericName:'',tradeName:'',dose:'',route:'',frequency:'',startDateTime:'',stopDateTime:'',role:'concomitant',updatedAt:new Date().toISOString(),...seed}}
+export function createMedication(seed={}){return {id:makeId('drug'),genericName:'',drugDatabaseId:null,nameSource:'manual',tradeName:'',dose:'',route:'',frequency:'',startDateTime:'',stopDateTime:'',role:'concomitant',updatedAt:new Date().toISOString(),...seed}}
 export function createEvent(seed={}){return {id:makeId('event'),term:'',onsetDateTime:'',endDateTime:'',timing:'indeterminate',phenotype:'',phenotypeOther:'',mechanism:'unknown',mechanismOther:'',severity:'',seriousness:[],outcome:'',management:'',objectiveEvidence:'',clinicalNote:'',updatedAt:new Date().toISOString(),...seed}}
 export function createAssessment(drugId,eventId,seed={}){
   return {id:makeId('assessment'),drugId,eventId,algorithm:'Naranjo ADR Probability Scale',algorithmVersion:NARANJO_VERSION,status:'incomplete',answers:emptyNaranjoAnswers(),score:null,classification:null,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),snapshot:null,...seed};
 }
 export function createClinicalModule(type,seed={}){return {id:makeId('module'),type,drugId:'',eventId:'',inputs:{},result:null,status:'current',needsReviewReason:'',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),...seed}}
-export function createConclusion(drugId,eventId,seed={}){return {id:makeId('conclusion'),drugId,eventId,conclusion:'',relationshipType:'',reasoning:'',recommendations:[],recommendationNote:'',updatedAt:new Date().toISOString(),...seed}}
+export function createConclusion(drugId,eventId,seed={}){return {id:makeId('conclusion'),drugId,eventId,status:'current',needsReviewReason:'',assessmentUpdatedAt:null,conclusion:'',relationshipType:'',reasoning:'',recommendations:[],recommendationNote:'',updatedAt:new Date().toISOString(),...seed}}

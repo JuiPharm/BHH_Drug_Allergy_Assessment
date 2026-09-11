@@ -1,63 +1,34 @@
 # Changelog
 
-## 1.0.2 — Modal validation and ADR Event usability fix
+## 1.0.3 — 2026-09-11
 
-### Fixed
-- Fixed a native `<dialog>` top-layer issue where validation Toast messages rendered behind the open modal and were unreadable.
-- ADR Event now clearly marks the five fields required to save: ADR/Manifestation, Onset, Severity, Outcome and Management.
-- Validation errors now render inside the active dialog, highlight invalid controls and move focus to the first missing/invalid field.
-- Long dialogs now keep the header/validation/actions visible while the form body scrolls.
-- Applied the same modal-validation fix to Medication, Diagnosis, Previous Allergy/ADR History, Naranjo duplicate-pair checks, Final Pharmacist Conclusion and Optional Clinical Modules.
-- Fixed edit-cancel integrity for Previous Allergy History and Optional Clinical Modules: invalid edits no longer mutate saved state before validation passes.
-- Optional Clinical Module launch buttons are disabled until their required Drug/ADR context exists.
+### Drug Database & Medication UX
+- Added a separate **Drug Database** workspace tab so master-data administration does not interrupt the pharmacist clinical workflow.
+- Built `assets/data/drug-master.json` from `Drug list Update 10092026.xls` using the source `GenercName` field directly: 1,568 source rows, 1,505 rows with Generic name, 1,053 unique Generic names.
+- Medication **Generic name** is now an editable searchable combobox (`datalist`). A name not present in the database can still be entered and saved as `nameSource: manual`.
+- Database-selected medication names store `drugDatabaseId` and `nameSource: database` in the case JSON.
+- Added Route and Frequency suggestion lists while retaining free-text entry.
+- Drug database search also uses source product display names, item codes and TMT codes as search context.
 
-### Quality
-- Expanded automated regression coverage to 27 tests, including modal feedback placement and ADR required-field validation.
+### Drug Database administration
+- Read-only by default.
+- Local administrator can create a 4–8 digit PIN on first use, then must enter the correct PIN to add/edit/remove database entries.
+- PIN is stored only as a salted SHA-256 hash in browser localStorage; unlock state is session-only and auto-locks after 10 minutes.
+- Add/Edit/Remove operations are stored as local non-patient overrides; the shipped master JSON remains read-only on GitHub Pages.
+- Added Export changes, Import changes, Export merged database, Restore/Remove entries, and Reset local changes.
+- The PIN is an accidental-edit guard only, not authentication or a security boundary on a static GitHub Pages app.
 
-## 1.0.1 — Branding and Naranjo workflow guardrail
+### Clinical integrity fixes
+- Editing Medication or ADR Event now marks linked Final Pharmacist Conclusions as **Needs Review**, in addition to Naranjo and optional modules.
+- Editing Naranjo answers/rationales marks an existing linked Final Conclusion as **Needs Review**.
+- Final Conclusion can only be added/edited when the linked Naranjo assessment is Complete.
+- Final Print validation blocks a stale `conclusion_needs_review` result.
+- Confirming Naranjo review now refuses to make an assessment current when the drug is no longer Suspected.
 
-### Branding
-- Replaced the generated placeholder hospital mark with the supplied Bangkok Hospital Hat Yai logo artwork in the application header and A4 report.
-- Rebuilt the favicon from the official B symbol in the supplied artwork.
+### Security / deployment
+- CSP `connect-src` changed from `none` to `self` only to load the local static drug-master JSON. External application connections remain blocked.
+- Patient clinical case data remains memory-only; only language preference and non-patient Drug Database admin/override settings use localStorage.
 
-### Naranjo workflow
-- Added an explicit prerequisite gate: at least one saved medication with `Role = Suspected` and at least one ADR event are required before a new Naranjo assessment can be created.
-- The `New assessment` button is disabled until prerequisites are satisfied and a TH/EN status message explains what is missing.
-- Added domain-level prerequisite logic and regression coverage.
-
-### Quality
-- Production build passes 24 automated tests, 0 failed.
-
-## 1.0.0 — Modular production-oriented release
-
-### Architecture
-- Refactored monolithic prototype into `core`, `domain`, `features`, `clinical`, `services`, `config` and `ui` modules.
-- Added central in-memory store with scoped renders.
-- Split optional clinical calculators into independent engines with lazy dynamic imports.
-- Split CSS into six source modules and added build-time concatenation to one production stylesheet.
-- Added CSP, no-referrer and no-index hardening.
-
-### Clinical workflow
-- Full Patient → Medication → ADR Event → Timeline → Drug × ADR Naranjo → Pharmacist Conclusion workflow.
-- Multiple drugs, events and pair-specific assessments.
-- Drug-allergy phenotype, severity, seriousness, outcome, management and objective evidence.
-- TH/EN UI plus separate Copy TH / Copy EN clinical summaries.
-- Final A4 print remains blocked until core clinical validation passes.
-
-### Optional modules
-- PEN-FAST, RegiSCAR, ALDEN and Schumock & Thornton remain optional.
-- Source edits invalidate linked optional results to Needs Review.
-- PEN-FAST retains pediatric caution and never auto-orders a challenge.
-- RegiSCAR displays an Unknown-data caution without altering the published score.
-- **Safety fix:** ALDEN no longer inherits positive values from HTML select defaults. All six scoring parameters must be explicitly selected; incomplete input is not scored.
-- RegiSCAR eosinophilia UI clarifies percentage thresholds apply when leukocytes are <4,000/µL.
-
-### Data integrity / privacy
-- Added structural validation for optional-module IDs/types/references and pharmacist-conclusion references/duplicates.
-- Patient clinical data is not persisted in browser storage; only language preference may be stored.
-- Native/legacy JSON import is guarded before replacing active state.
-- Legacy ambiguous Naranjo data remains Needs Review or is not imported when semantics cannot be trusted.
-
-### Quality
-- Production CI runs the full build, syntax validation and automated tests.
-- Added architecture tests for lazy module loading, storage privacy and CSP.
+### Tests
+- Production build passes 30 automated tests.
+- Added tests for source Drug Database counts, manual Generic-name entry, and local override merge behavior.

@@ -54,6 +54,7 @@ export function validateCase(data,{forPrint=false}={}){
     for(const a of data.assessments??[]){
       const c=(data.conclusions??[]).find(x=>x.drugId===a.drugId&&x.eventId===a.eventId);
       if(!c||!c.conclusion||!c.relationshipType||!c.reasoning?.trim()) errors.push('conclusion_required');
+      else if(c.status==='needs_review') errors.push('conclusion_needs_review');
       if(c?.relationshipType==='allergic'){
         const ev=(data.events??[]).find(e=>e.id===a.eventId);
         if(!ev?.phenotype) errors.push('allergic_phenotype_required');

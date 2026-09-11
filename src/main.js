@@ -12,10 +12,11 @@ import {createClinicalModulesFeature} from './features/clinical-modules.js';
 import {createConclusionFeature} from './features/conclusions.js';
 import {createReportFeature} from './features/report.js';
 import {createFileOperationsFeature} from './features/file-operations.js';
+import {createDrugDatabaseFeature} from './features/drug-database.js';
 
 const store=createStore(),dialog=createDialogController(),ctx={store,dialog};
-const features={shell:createShellFeature(ctx),patient:createPatientFeature(ctx),medications:createMedicationFeature(ctx),events:createEventFeature(ctx),timeline:createTimelineFeature(ctx),naranjo:createNaranjoFeature(ctx),modules:createClinicalModulesFeature(ctx),conclusions:createConclusionFeature(ctx),report:createReportFeature(ctx),files:createFileOperationsFeature(ctx)};
-const renderOrder=['patient','medications','events','timeline','naranjo','modules','conclusions','report','shell'];
+const features={shell:createShellFeature(ctx),patient:createPatientFeature(ctx),medications:createMedicationFeature(ctx),events:createEventFeature(ctx),timeline:createTimelineFeature(ctx),naranjo:createNaranjoFeature(ctx),modules:createClinicalModulesFeature(ctx),conclusions:createConclusionFeature(ctx),report:createReportFeature(ctx),files:createFileOperationsFeature(ctx),drugDatabase:createDrugDatabaseFeature(ctx)};
+const renderOrder=['patient','medications','events','timeline','naranjo','modules','conclusions','report','shell','drugDatabase'];
 function renderScopes(scopes){const all=scopes.has('all');for(const key of renderOrder)if(all||scopes.has(key))features[key].render()}
 for(const feature of Object.values(features))feature.init?.();
 store.subscribe(renderScopes);

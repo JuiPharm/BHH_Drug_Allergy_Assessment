@@ -62,3 +62,16 @@ Clinical case state exists only in JavaScript memory. `localStorage` is permitte
 
 ## Extension pattern
 A new optional calculator should be implemented as a new file under `src/clinical/`, registered in `clinical/registry.js`, then surfaced by `features/clinical-modules.js`. Do not add calculator math directly to UI event handlers.
+
+## v1.0.3 Drug Database module
+
+`assets/data/drug-master.json` is static BHH master data generated from the supplied hospital drug list. Runtime master-data behavior is isolated from patient-case state:
+
+- `src/domain/drug-database.js` — pure normalization, search, merge and validation rules.
+- `src/services/drug-database.js` — same-origin master JSON loading, local non-patient overrides and salted PIN hash.
+- `src/features/drug-database.js` — dedicated Drug Database tab, PIN unlock, add/edit/remove and import/export controls.
+- `src/features/medications.js` — consumes only the merged Generic-name index and always permits manual Generic-name entry.
+
+The shipped master file is immutable at runtime. Browser edits are represented as an override layer (`added`, `updated`, `disabled`) and can be exported for controlled review before updating the repository master file.
+
+The Drug Database PIN is explicitly not an authentication boundary. GitHub Pages is static client-side code; a technically capable user can inspect or clear browser storage. Its purpose is to prevent accidental or routine unauthorized edits to local master-data overrides.

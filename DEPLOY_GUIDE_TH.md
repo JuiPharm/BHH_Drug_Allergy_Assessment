@@ -56,3 +56,11 @@ GitHub Pages ไม่มี application authentication ดังนั้นต
 หากนโยบายโรงพยาบาลต้องมี Login/RBAC/Audit log ให้ใช้ source modular ชุดเดียวกันหลัง approved authenticated/internal hosting layer แทน public GitHub Pages
 
 อ่าน `SECURITY.md` และทำ `REVIEW_CHECKLIST.md` ให้ครบก่อน go-live
+
+## Drug Database v1.0.3
+
+โฟลเดอร์ `assets/data/drug-master.json` ต้องถูก deploy พร้อมกับไฟล์อื่นทั้งหมด เพราะ Medication autocomplete โหลดไฟล์นี้จาก GitHub Pages origin เดียวกัน
+
+CSP ของ v1.0.3 ใช้ `connect-src 'self'` เพื่ออนุญาตโหลด JSON ภายในเว็บไซต์เท่านั้น ไม่ได้เปิดการเชื่อมต่อออกไปยัง API ภายนอก
+
+PIN ของ Drug Database เป็น PIN เฉพาะ browser/device และใช้ป้องกันการแก้ไข local overrides โดยไม่ตั้งใจ หากต้องการให้การเพิ่ม/แก้/ลบฐานยา sync ทุกเครื่อง ต้องเปลี่ยนไปใช้ backend + authentication ในอนาคต

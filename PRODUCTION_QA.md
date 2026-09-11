@@ -49,3 +49,15 @@ The package is a production-oriented software release with automated clinical-lo
 
 - Header and printable report reference `assets/bhh-logo.png`, generated only by trimming external white margins from the supplied Bangkok Hospital Hat Yai artwork.
 - Favicon references `assets/favicon.png`, cropped from the B symbol in the same supplied artwork.
+
+## v1.0.3 Drug Database QA
+
+- Source drug list conversion: 1,568 rows; 1,505 rows with Generic name; 1,053 unique Generic names.
+- Generic-name field remains manually editable when no database match exists.
+- Local Drug Database overrides are separated from patient-case state.
+- PIN clear text is not persisted; only salted SHA-256 hash is stored.
+- Drug Database unlock state is not persisted and auto-locks after 10 minutes.
+- Database add/edit/remove actions are disabled while locked.
+- Same-origin CSP permits loading only the local static JSON and continues to block external application connections.
+- Clinical stale-state tests cover Naranjo/Conclusion invalidation.
+- `npm run build`: 30/30 tests passed on 2026-09-11.

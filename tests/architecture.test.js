@@ -23,7 +23,7 @@ test('patient clinical data is not persisted by source modules',async()=>{
   const srcDir=new URL('../src/',import.meta.url).pathname;
   const files=await walk(srcDir);
   for(const file of files){
-    if(file.endsWith('/config/i18n.js'))continue; // language preference only
+    if(file.endsWith('/config/i18n.js')||file.endsWith('/services/drug-database.js'))continue; // non-patient preferences / drug-master overrides only
     const text=await readFile(file,'utf8');
     assert.equal(/localStorage|sessionStorage|indexedDB/.test(text),false,`patient persistence API found in ${file}`);
   }
@@ -31,7 +31,8 @@ test('patient clinical data is not persisted by source modules',async()=>{
 
 test('index enforces no outbound application connections',async()=>{
   const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
-  assert.match(html,/connect-src 'none'/);
+  assert.match(html,/connect-src 'self'/);
+  assert.doesNotMatch(html,/https?:\/\//);
   assert.match(html,/type="module" src="src\/main\.js"/);
   assert.match(html,/assets\/bhh-logo\.png/);
   assert.match(html,/assets\/favicon\.png/);
