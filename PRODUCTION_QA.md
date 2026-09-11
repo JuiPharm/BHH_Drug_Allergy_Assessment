@@ -1,4 +1,4 @@
-# Production QA Record — v1.0.1
+# Production QA Record — v1.0.2
 
 ## Automated verification
 Command: `npm run build`
@@ -8,7 +8,7 @@ Build pipeline performs:
 2. JavaScript syntax check for every file under `src/`.
 3. Node test suite.
 
-Latest result in the build environment: **24 tests passed, 0 failed**.
+Latest result in the build environment: **27 tests passed, 0 failed**.
 
 Coverage includes:
 - Naranjo incomplete behavior, semantic No/Unknown, classification boundaries and rationale requirements.
@@ -25,6 +25,9 @@ Coverage includes:
 - Lazy loading of all four optional clinical engines.
 - No patient-data browser persistence API outside language preference.
 - CSP `connect-src 'none'` and modular production entry point.
+- Modal feedback is inside the native dialog top layer; ADR/Medication/Conclusion and clinical-module validation no longer depends on a background Toast.
+- ADR Event required fields are explicitly marked and invalid fields receive inline focus/highlighting.
+- Invalid edits to allergy-history and optional-module records are transactional and do not mutate saved state before successful validation.
 
 ## Static release review
 - No CDN/runtime framework dependencies.

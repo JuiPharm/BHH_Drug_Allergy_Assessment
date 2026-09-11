@@ -1,21 +1,28 @@
 BHH Drug Allergy Assessment
-Release: 1.0.1
+Release: 1.0.2
 Architecture: Modular static ES Modules
 Build date: 2026-09-11
-Automated tests: 24 passed / 0 failed
+Automated tests: 27 passed / 0 failed
 Production entry: src/main.js
 Optional engines: src/clinical/penfast.js, regiscar.js, alden.js, schumock.js
 Runtime external dependencies: none
 Clinical browser persistence: none (language preference only)
 Branding: supplied Bangkok Hospital Hat Yai artwork; production display trims external white margins only
 Naranjo gate: requires >=1 Suspected medication and >=1 ADR event before new assessment
+Modal validation: feedback rendered inside native <dialog> top layer; invalid fields highlighted
+ADR Event required fields: term, onset, severity, outcome, management
 
 Key SHA-256 hashes:
-65437b12696e63197b81eafb52b7df9607cde9f1f148556b5dc2da80aa324940  index.html
-652e8cc402bd6f806a79892b5a821d1a51b5e38b8c37307e065bcf3d67fc70c9  assets/styles.css
+bb68a733a76399a8269dd2dd565fbecf7073b10bb45c643d2ea04353ccf1933f  index.html
+c63880ca7e783acebf402acc76d2cb612eccbef76c21b2c2edfb794ad2cda06e  assets/styles.css
 53821ec660d1e46a774a44c27d4197dfff1371bcaccd3b0bb2894d21bfb41cb3  assets/bhh-logo.png
 864085fd86aee0a0e855e7e3c8c9d92628161d4ab0f728f0b370bb77d0adcee0  assets/favicon.png
 c229030c1ceccdcf833e4cffda093dd3985a338b36ef6e358016fc88b1fc0cb3  src/main.js
+7585cff7ba588e0050172a4290eeb71237516a88b07c9c39db2450ba961922b1  src/ui/dialog.js
+9a163f62abf53d85513264400eac674541b9ac6c26c24b0865032ad6632f3365  src/ui/feedback.js
+fbfe0c626fcd80cf5fdc7c5dc2c152b34159ced7205110658abba7933691a255  src/features/events.js
+82f07370a599ef67337946b8b3742cd3b8666cf496e9203a5e86e3d673eaa764  src/features/medications.js
+352b8ae7561d9830dec37cc75cf3d7d975c4d0f507da7cd8bb190ca3f6fba95c  src/features/clinical-modules.js
 ccb36918c47e68d72caadcd22cc210e784016e9094bb415603eafd51a3914abd  src/domain/naranjo.js
 5d48afa6f0a0b9de5071167a07b32a4313639014519bfe6323424dc9ab8e8c71  src/domain/validation.js
 0d3eb61a4ffdd72c4156aa872a1cb6add58c51e7d9779e899294e8fd0a9e56c0  src/clinical/penfast.js

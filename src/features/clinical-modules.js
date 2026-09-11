@@ -49,8 +49,10 @@ export function createClinicalModulesFeature({store,dialog}){
   }
 
   function render(){
-    const l=getLang();
-    $('#moduleResults').innerHTML=state().clinicalModules.map(m=>{
+    const l=getLang(),s=state(),hasSuspected=s.medications.some(m=>m.role==='suspected'),hasEvent=s.events.length>0;
+    const requirements={penfast:hasSuspected,regiscar:hasEvent,alden:hasSuspected&&hasEvent,schumock:hasSuspected&&hasEvent};
+    document.querySelectorAll('[data-module]').forEach(b=>{const ready=requirements[b.dataset.module]!==false;b.disabled=!ready;b.setAttribute('aria-disabled',String(!ready));b.title=ready?'':(l==='th'?(b.dataset.module==='regiscar'?'เพิ่ม ADR Event ก่อนใช้โมดูลนี้':b.dataset.module==='penfast'?'เพิ่มยาที่ Role = Suspected ก่อนใช้โมดูลนี้':'เพิ่ม Suspected drug และ ADR Event ก่อนใช้โมดูลนี้'):(b.dataset.module==='regiscar'?'Add an ADR event first':b.dataset.module==='penfast'?'Add a Suspected drug first':'Add a Suspected drug and ADR event first'));});
+    $('#moduleResults').innerHTML=s.clinicalModules.map(m=>{
       const stale=m.status==='needs_review';
       const warning=stale?t('moduleNeedsReview'):interpretation(m);
       const updated=new Date(m.updatedAt).toLocaleString(l==='th'?'th-TH':'en-GB');
@@ -69,10 +71,10 @@ export function createClinicalModulesFeature({store,dialog}){
     const l=getLang(),meds=state().medications.filter(m=>m.role==='suspected'),events=state().events;
     const choose=l==='th'?'— เลือก —':'— Select —';
     return `<div class="form-grid cols-2">
-      <label>${t('suspected')} ${drugOptional?`<span class="muted">(${l==='th'?'ไม่บังคับ':'optional'})</span>`:''}
+      <label>${drugOptional?t('suspected'):`<span class="field-required">${t('suspected')}</span>`} ${drugOptional?`<span class="muted">(${l==='th'?'ไม่บังคับ':'optional'})</span>`:''}
         <select name="drug"><option value="">${choose}</option>${meds.map(m=>`<option value="${m.id}" ${mod.drugId===m.id?'selected':''}>${esc(m.genericName)}</option>`).join('')}</select>
       </label>
-      <label>ADR event ${eventOptional?`<span class="muted">(${l==='th'?'ไม่บังคับ':'optional'})</span>`:''}
+      <label>${eventOptional?'ADR event':'<span class="field-required">ADR event</span>'} ${eventOptional?`<span class="muted">(${l==='th'?'ไม่บังคับ':'optional'})</span>`:''}
         <select name="event"><option value="">${choose}</option>${events.map(e=>`<option value="${e.id}" ${mod.eventId===e.id?'selected':''}>${esc(e.term)}</option>`).join('')}</select>
       </label>
     </div>`;
@@ -114,12 +116,12 @@ export function createClinicalModulesFeature({store,dialog}){
   function aldenForm(mod,l){
     return `${pairSelectors(mod)}<div class="dialog-section"><h3>ALDEN — SJS/TEN</h3>
       <div class="form-grid cols-2">
-        <label>Delay from drug intake to index day<select name="delay"><option value="">— Select —</option>${opt('suggestive','Suggestive +3: 5–28 d (or 1–4 d after previous same-drug reaction)',mod.inputs.delay)}${opt('compatible','Compatible +2: 29–56 d',mod.inputs.delay)}${opt('likely','Likely +1: 1–4 d (or 5–56 d after previous same-drug reaction)',mod.inputs.delay)}${opt('unlikely','Unlikely −1: >56 d',mod.inputs.delay)}${opt('excluded','Excluded −3: drug started on/after index day',mod.inputs.delay)}</select></label>
-        <label>Drug present in body on index day<select name="bodyPresence"><option value="">— Select using half-life data —</option>${opt('definite','Definite 0: continued or stopped <5 half-lives',mod.inputs.bodyPresence)}${opt('doubtful','Doubtful −1: >5 half-lives with renal/hepatic impairment or interaction',mod.inputs.bodyPresence)}${opt('excluded','Excluded −3: >5 half-lives without impairment/interaction',mod.inputs.bodyPresence)}</select></label>
-        <label>Prechallenge / rechallenge<select name="prechallenge"><option value="">— Select —</option>${opt('specific_disease_drug','Same drug caused SJS/TEN (+4)',mod.inputs.prechallenge)}${opt('specific_disease_or_drug','Similar drug caused SJS/TEN or same drug caused another reaction (+2)',mod.inputs.prechallenge)}${opt('unspecific','Similar drug caused another reaction (+1)',mod.inputs.prechallenge)}${opt('unknown','Not done / unknown (0)',mod.inputs.prechallenge)}${opt('negative','Previous exposure without reaction (−2)',mod.inputs.prechallenge)}</select></label>
-        <label>Dechallenge<select name="dechallenge"><option value="">— Select —</option>${opt('neutral','Drug stopped / unknown (0)',mod.inputs.dechallenge)}${opt('negative','Drug continued without harm (−2)',mod.inputs.dechallenge)}</select></label>
-        <label>Drug notoriety<select name="notoriety"><option value="">— Select from reliable reference —</option>${opt('strong','High-risk list (+3)',mod.inputs.notoriety)}${opt('associated','Associated (+2)',mod.inputs.notoriety)}${opt('suspected','Suspected / under surveillance (+1)',mod.inputs.notoriety)}${opt('unknown','All other / new drugs (0)',mod.inputs.notoriety)}${opt('not_suspected','Evidence against association (−1)',mod.inputs.notoriety)}</select></label>
-        <label>Other cause / another drug more likely<select name="otherCause"><option value="">— Select after ranking drugs —</option>${opt('none','No deduction (0)',mod.inputs.otherCause)}${opt('possible','Another drug intermediate score >3 (−1)',mod.inputs.otherCause)}</select></label>
+        <label><span class="field-required">Delay from drug intake to index day</span><select name="delay"><option value="">— Select —</option>${opt('suggestive','Suggestive +3: 5–28 d (or 1–4 d after previous same-drug reaction)',mod.inputs.delay)}${opt('compatible','Compatible +2: 29–56 d',mod.inputs.delay)}${opt('likely','Likely +1: 1–4 d (or 5–56 d after previous same-drug reaction)',mod.inputs.delay)}${opt('unlikely','Unlikely −1: >56 d',mod.inputs.delay)}${opt('excluded','Excluded −3: drug started on/after index day',mod.inputs.delay)}</select></label>
+        <label><span class="field-required">Drug present in body on index day</span><select name="bodyPresence"><option value="">— Select using half-life data —</option>${opt('definite','Definite 0: continued or stopped <5 half-lives',mod.inputs.bodyPresence)}${opt('doubtful','Doubtful −1: >5 half-lives with renal/hepatic impairment or interaction',mod.inputs.bodyPresence)}${opt('excluded','Excluded −3: >5 half-lives without impairment/interaction',mod.inputs.bodyPresence)}</select></label>
+        <label><span class="field-required">Prechallenge / rechallenge</span><select name="prechallenge"><option value="">— Select —</option>${opt('specific_disease_drug','Same drug caused SJS/TEN (+4)',mod.inputs.prechallenge)}${opt('specific_disease_or_drug','Similar drug caused SJS/TEN or same drug caused another reaction (+2)',mod.inputs.prechallenge)}${opt('unspecific','Similar drug caused another reaction (+1)',mod.inputs.prechallenge)}${opt('unknown','Not done / unknown (0)',mod.inputs.prechallenge)}${opt('negative','Previous exposure without reaction (−2)',mod.inputs.prechallenge)}</select></label>
+        <label><span class="field-required">Dechallenge</span><select name="dechallenge"><option value="">— Select —</option>${opt('neutral','Drug stopped / unknown (0)',mod.inputs.dechallenge)}${opt('negative','Drug continued without harm (−2)',mod.inputs.dechallenge)}</select></label>
+        <label><span class="field-required">Drug notoriety</span><select name="notoriety"><option value="">— Select from reliable reference —</option>${opt('strong','High-risk list (+3)',mod.inputs.notoriety)}${opt('associated','Associated (+2)',mod.inputs.notoriety)}${opt('suspected','Suspected / under surveillance (+1)',mod.inputs.notoriety)}${opt('unknown','All other / new drugs (0)',mod.inputs.notoriety)}${opt('not_suspected','Evidence against association (−1)',mod.inputs.notoriety)}</select></label>
+        <label><span class="field-required">Other cause / another drug more likely</span><select name="otherCause"><option value="">— Select after ranking drugs —</option>${opt('none','No deduction (0)',mod.inputs.otherCause)}${opt('possible','Another drug intermediate score >3 (−1)',mod.inputs.otherCause)}</select></label>
       </div>
       <div class="help-box">${l==='th'?'ALDEN ใช้เฉพาะ SJS/TEN และต้องประเมิน “รายยา” หลังระบุ index day ให้ถูกต้อง ระบบจงใจไม่ตั้งค่าเริ่มต้นให้ notoriety, half-life/body presence หรือ prechallenge เพื่อป้องกันคะแนนสูงปลอมจาก default value':'ALDEN is specific to SJS/TEN and is applied per drug after defining the index day. Notoriety, half-life/body presence and prechallenge intentionally have no scoring defaults to prevent falsely high scores.'}</div>
     </div>`;
@@ -139,7 +141,8 @@ export function createClinicalModulesFeature({store,dialog}){
   }
 
   async function openEditor(type,id=null){
-    let mod=id?state().clinicalModules.find(x=>x.id===id):createClinicalModule(type);
+    const source=id?state().clinicalModules.find(x=>x.id===id):null;
+    let mod=source?structuredClone(source):createClinicalModule(type);
     if(!mod)return;
     const engine=await loadClinicalEngine(mod.type),l=getLang();
     const builders={penfast:penFastForm,regiscar:regiScarForm,alden:aldenForm,schumock:schumockForm};
@@ -147,9 +150,10 @@ export function createClinicalModulesFeature({store,dialog}){
   }
 
   function requirePair(mod,{drug=false,event=false}={}){
-    const l=getLang();
-    if(drug&&!mod.drugId){toast(l==='th'?'กรุณาเลือกยาที่สงสัย':'Select a suspected drug');return false;}
-    if(event&&!mod.eventId){toast(l==='th'?'กรุณาเลือก ADR event':'Select an ADR event');return false;}
+    const l=getLang(),fields=[];
+    if(drug&&!mod.drugId)fields.push('drug');
+    if(event&&!mod.eventId)fields.push('event');
+    if(fields.length)return dialog.error(l==='th'?(drug&&event?'กรุณาเลือก Suspected drug และ ADR event':'กรุณาเลือกข้อมูลที่จำเป็นก่อนบันทึกโมดูล'):(drug&&event?'Select a Suspected drug and an ADR event':'Select the required item before saving the module'),{fields});
     return true;
   }
 
@@ -173,9 +177,10 @@ export function createClinicalModulesFeature({store,dialog}){
       mod.inputs=Object.fromEntries(['inappropriateDrug','inappropriateDoseRouteFrequency','monitoringNotPerformed','historyAllergy','drugInteraction','toxicConcentration','poorCompliance'].map(k=>[k,dialog.val(k)]));
     }
     mod.result=engine.calculate(mod.inputs);
-    if(mod.result.complete===false){toast(getLang()==='th'?'กรอกข้อมูลโมดูลที่จำเป็นให้ครบก่อนบันทึก':'Complete the required module inputs before saving');return;}
+    if(mod.result.complete===false){const fields=mod.type==='alden'?['delay','bodyPresence','prechallenge','dechallenge','notoriety','otherCause']:[];return dialog.error(getLang()==='th'?'กรอกข้อมูลโมดูลที่จำเป็นให้ครบก่อนบันทึก':'Complete the required module inputs before saving',{fields});}
     mod.status='current';mod.needsReviewReason='';mod.updatedAt=new Date().toISOString();
-    if(!id)state().clinicalModules.push(mod);
+    if(id){const target=state().clinicalModules.find(x=>x.id===id);if(target)Object.assign(target,mod);}
+    else state().clinicalModules.push(mod);
     store.update(()=>{}, {scopes});dialog.close();
   }
 

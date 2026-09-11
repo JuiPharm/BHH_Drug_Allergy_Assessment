@@ -1,7 +1,7 @@
 import {emptyNaranjoAnswers,NARANJO_VERSION} from './naranjo.js';
 
 export const APP_NAME='BHH Drug Allergy Assessment';
-export const APP_VERSION='1.0.1';
+export const APP_VERSION='1.0.2';
 export const SCHEMA_VERSION='1.0.0';
 
 export function makeId(prefix){

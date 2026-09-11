@@ -58,10 +58,10 @@
       <div class="card">
         <div class="form-grid cols-4">
           <label>Case ID<input id="caseId" readonly /></label>
-          <label><span data-i18n="hn">HN</span><input id="patientHn" autocomplete="off" /></label>
-          <label><span data-i18n="age">Age</span><div class="inline-field"><input id="patientAge" type="number" min="0" step="1" /><select id="patientAgeUnit"><option value="years" data-i18n="years">years</option><option value="months" data-i18n="months">months</option><option value="days" data-i18n="days">days</option></select></div></label>
-          <label><span data-i18n="sex">Sex</span><select id="patientSex"><option value="" data-i18n="select">Select</option><option value="male" data-i18n="male">Male</option><option value="female" data-i18n="female">Female</option></select></label>
-          <label><span data-i18n="visitDate">Visit date</span><input id="visitDate" type="date" /></label>
+          <label><span class="field-required" data-i18n="hn">HN</span><input id="patientHn" autocomplete="off" aria-required="true" /></label>
+          <label><span class="field-required" data-i18n="age">Age</span><div class="inline-field"><input id="patientAge" type="number" min="0" step="1" aria-required="true" /><select id="patientAgeUnit"><option value="years" data-i18n="years">years</option><option value="months" data-i18n="months">months</option><option value="days" data-i18n="days">days</option></select></div></label>
+          <label><span class="field-required" data-i18n="sex">Sex</span><select id="patientSex" aria-required="true"><option value="" data-i18n="select">Select</option><option value="male" data-i18n="male">Male</option><option value="female" data-i18n="female">Female</option></select></label>
+          <label><span class="field-required" data-i18n="visitDate">Visit date</span><input id="visitDate" type="date" aria-required="true" /></label>
           <label class="span-3"><span data-i18n="caseNote">Additional clinical note</span><input id="patientNote" autocomplete="off" /></label>
         </div>
       </div>
@@ -117,7 +117,7 @@
   </div>
 </main>
 
-<dialog id="formDialog"><form method="dialog" id="dialogForm"><div class="dialog-head"><div><p class="section-kicker" id="dialogKicker"></p><h2 id="dialogTitle"></h2></div><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><div id="dialogBody"></div><div class="dialog-actions"><button class="btn btn-ghost" value="cancel" data-i18n="cancel">Cancel</button><button class="btn btn-primary" id="dialogSave" value="default" type="button" data-i18n="save">Save</button></div></form></dialog>
+<dialog id="formDialog"><form method="dialog" id="dialogForm" novalidate><div class="dialog-head"><div><p class="section-kicker" id="dialogKicker"></p><h2 id="dialogTitle"></h2></div><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><div id="dialogFeedback" class="dialog-feedback" role="alert" aria-live="assertive" hidden></div><div id="dialogBody"></div><div class="dialog-actions"><button class="btn btn-ghost" value="cancel" data-i18n="cancel">Cancel</button><button class="btn btn-primary" id="dialogSave" value="default" type="button" data-i18n="save">Save</button></div></form></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="module" src="src/main.js"></script>
 </body>

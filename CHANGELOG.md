@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.2 — Modal validation and ADR Event usability fix
+
+### Fixed
+- Fixed a native `<dialog>` top-layer issue where validation Toast messages rendered behind the open modal and were unreadable.
+- ADR Event now clearly marks the five fields required to save: ADR/Manifestation, Onset, Severity, Outcome and Management.
+- Validation errors now render inside the active dialog, highlight invalid controls and move focus to the first missing/invalid field.
+- Long dialogs now keep the header/validation/actions visible while the form body scrolls.
+- Applied the same modal-validation fix to Medication, Diagnosis, Previous Allergy/ADR History, Naranjo duplicate-pair checks, Final Pharmacist Conclusion and Optional Clinical Modules.
+- Fixed edit-cancel integrity for Previous Allergy History and Optional Clinical Modules: invalid edits no longer mutate saved state before validation passes.
+- Optional Clinical Module launch buttons are disabled until their required Drug/ADR context exists.
+
+### Quality
+- Expanded automated regression coverage to 27 tests, including modal feedback placement and ADR required-field validation.
+
 ## 1.0.1 — Branding and Naranjo workflow guardrail
 
 ### Branding

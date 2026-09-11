@@ -36,3 +36,35 @@ test('index enforces no outbound application connections',async()=>{
   assert.match(html,/assets\/bhh-logo\.png/);
   assert.match(html,/assets\/favicon\.png/);
 });
+
+test('modal validation feedback is rendered inside the top-layer dialog',async()=>{
+  const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  const dialogStart=html.indexOf('<dialog id="formDialog"');
+  const dialogEnd=html.indexOf('</dialog>',dialogStart);
+  const feedbackPos=html.indexOf('id="dialogFeedback"',dialogStart);
+  assert.ok(dialogStart>=0&&dialogEnd>dialogStart,'form dialog must exist');
+  assert.ok(feedbackPos>dialogStart&&feedbackPos<dialogEnd,'dialog feedback must live inside <dialog> top layer');
+  const dialogJs=await readFile(new URL('../src/ui/dialog.js',import.meta.url),'utf8');
+  assert.match(dialogJs,/function error\(message/);
+  assert.match(dialogJs,/aria-invalid/);
+});
+
+test('ADR modal exposes required fields and uses inline dialog errors',async()=>{
+  const source=await readFile(new URL('../src/features/events.js',import.meta.url),'utf8');
+  for(const name of ['term','onset','severity','outcome','management']){
+    assert.match(source,new RegExp(`name="${name}"`));
+  }
+  assert.match(source,/field-required/);
+  assert.match(source,/dialog\.error/);
+  assert.doesNotMatch(source,/toast\(/);
+});
+
+test('other modal save validation does not depend on background toast',async()=>{
+  for(const file of ['medications.js','patient.js','conclusions.js']){
+    const source=await readFile(new URL(`../src/features/${file}`,import.meta.url),'utf8');
+    assert.match(source,/dialog\.error/);
+  }
+  const modules=await readFile(new URL('../src/features/clinical-modules.js',import.meta.url),'utf8');
+  assert.match(modules,/dialog\.error/);
+  assert.match(modules,/structuredClone\(source\)/);
+});

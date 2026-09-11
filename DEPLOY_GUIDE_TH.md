@@ -1,4 +1,4 @@
-# คู่มือ Deploy Production — BHH Drug Allergy Assessment v1.0.1
+# คู่มือ Deploy Production — BHH Drug Allergy Assessment v1.0.2
 
 ## 1) ตรวจ Build ก่อนขึ้นระบบ
 ติดตั้ง Node.js 20+ แล้วเปิด Terminal ในโฟลเดอร์โปรเจกต์

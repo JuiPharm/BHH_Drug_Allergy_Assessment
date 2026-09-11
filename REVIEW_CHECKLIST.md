@@ -84,3 +84,10 @@
 - [ ] BHH IT/Information Security approved hosting model
 - [ ] PDPA process for exported JSON files is defined
 - [ ] Production URL and browser/device policy documented
+
+## Modal validation regression (v1.0.2)
+- [ ] เปิด Add ADR Event แล้วกด Save โดยเว้นช่องจำเป็น: ข้อความเตือนต้องอยู่ **ภายใน modal** และอ่านได้ชัดเจน
+- [ ] ADR / Manifestation, Onset, Severity, Outcome และ Management ต้องมีเครื่องหมาย `*`
+- [ ] เมื่อ validation ผิด ช่องที่เกี่ยวข้องต้องถูก highlight และ focus ที่ช่องแรก
+- [ ] ทดสอบ validation แบบเดียวกันใน Medication, Allergy History, Final Conclusion และ Optional Clinical Modules
+- [ ] เปิด record เดิม แก้ให้ไม่ valid แล้วกด Cancel: ข้อมูลที่บันทึกไว้เดิมต้องไม่เปลี่ยน

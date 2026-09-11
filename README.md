@@ -1,9 +1,12 @@
-# BHH Drug Allergy Assessment v1.0.1
+# BHH Drug Allergy Assessment v1.0.2
 
 Production-oriented **modular static web application** for Bangkok Hospital Hat Yai pharmacist ADR and drug-allergy assessment workflow.
 
 ## Core pharmacist workflow
 Patient Case → Medication Exposure → ADR Events → Graphical Timeline → Drug × ADR Naranjo → Drug Allergy Phenotype → Final Pharmacist Conclusion → Recommendation → Final A4 Report.
+
+### ADR Event save requirements
+To save an ADR Event, the following fields are required: **ADR/Manifestation, Onset, Severity, Outcome and Management**. Required fields are marked with `*`; validation messages are displayed inside the active modal and invalid fields are highlighted.
 
 The application supports multiple suspected/concomitant drugs, multiple ADR events and multiple causality assessments in one case. Pediatric age can be recorded in days, months or years. Severity and seriousness are deliberately separate concepts.
 
