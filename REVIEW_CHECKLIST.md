@@ -13,6 +13,9 @@
 - [ ] Timeline เรียง chronological จริง
 
 ## Pharmacist — Naranjo
+
+- [ ] เมื่อยังไม่มี Suspected drug หรือ ADR event ปุ่ม `New assessment` ถูก disable และข้อความบอก prerequisite ถูกต้อง
+- [ ] เมื่อมี Suspected drug + ADR event แล้ว สามารถเลือกคู่ Drug × ADR เพื่อเริ่ม Naranjo ได้
 - [ ] ประเมินแยก Suspected Drug × ADR Event
 - [ ] Concomitant drug สร้าง Naranjo ไม่ได้
 - [ ] Yes / No / Unknown แยก semantic ชัดเจน

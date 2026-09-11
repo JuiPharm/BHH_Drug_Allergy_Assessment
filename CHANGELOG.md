@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.1 — Branding and Naranjo workflow guardrail
+
+### Branding
+- Replaced the generated placeholder hospital mark with the supplied Bangkok Hospital Hat Yai logo artwork in the application header and A4 report.
+- Rebuilt the favicon from the official B symbol in the supplied artwork.
+
+### Naranjo workflow
+- Added an explicit prerequisite gate: at least one saved medication with `Role = Suspected` and at least one ADR event are required before a new Naranjo assessment can be created.
+- The `New assessment` button is disabled until prerequisites are satisfied and a TH/EN status message explains what is missing.
+- Added domain-level prerequisite logic and regression coverage.
+
+### Quality
+- Production build passes 24 automated tests, 0 failed.
+
 ## 1.0.0 — Modular production-oriented release
 
 ### Architecture

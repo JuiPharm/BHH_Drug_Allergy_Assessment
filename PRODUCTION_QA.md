@@ -1,4 +1,4 @@
-# Production QA Record — v1.0.0
+# Production QA Record — v1.0.1
 
 ## Automated verification
 Command: `npm run build`
@@ -8,10 +8,11 @@ Build pipeline performs:
 2. JavaScript syntax check for every file under `src/`.
 3. Node test suite.
 
-Latest result in the build environment: **23 tests passed, 0 failed**.
+Latest result in the build environment: **24 tests passed, 0 failed**.
 
 Coverage includes:
 - Naranjo incomplete behavior, semantic No/Unknown, classification boundaries and rationale requirements.
+- Naranjo prerequisite gate: a Suspected medication and ADR event are both required before creating a new Drug × ADR assessment.
 - Suspected-vs-concomitant pair integrity and Needs Review transitions.
 - Final-print phenotype/conclusion validation.
 - PEN-FAST cutoff and conservative Unknown handling.
@@ -40,3 +41,8 @@ Before clinical go-live, complete `REVIEW_CHECKLIST.md` against the deployed Git
 
 ## Release interpretation
 The package is a production-oriented software release with automated clinical-logic/data-integrity safeguards. Clinical governance, PDPA/IT hosting approval, and real-browser pharmacist UAT remain go-live gates for routine identifiable-patient use.
+
+## Branding verification
+
+- Header and printable report reference `assets/bhh-logo.png`, generated only by trimming external white margins from the supplied Bangkok Hospital Hat Yai artwork.
+- Favicon references `assets/favicon.png`, cropped from the B symbol in the same supplied artwork.

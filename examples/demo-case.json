@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "application": {
     "name": "BHH Drug Allergy Assessment",
-    "version": "0.1.0"
+    "version": "1.0.1"
   },
   "metadata": {
     "caseId": "DEMO-ADR-001",

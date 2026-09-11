@@ -1,4 +1,4 @@
-# BHH Drug Allergy Assessment v1.0
+# BHH Drug Allergy Assessment v1.0.1
 
 Production-oriented **modular static web application** for Bangkok Hospital Hat Yai pharmacist ADR and drug-allergy assessment workflow.
 
@@ -34,6 +34,7 @@ See `ARCHITECTURE.md` for details.
 - No Naranjo classification until all 10 answers are completed.
 - Q1/Q5/Q7/Q9/Q10 and every Unknown answer require rationale.
 - Naranjo is assessed separately for every Suspected Drug × ADR pair.
+- A Naranjo assessment can only be created after at least one medication is saved with `Role = Suspected` and at least one ADR event exists; the UI disables the action until both prerequisites are met.
 - Source-data edits mark linked assessments `Needs Review`.
 - Final pharmacist conclusion remains independent of the Naranjo score.
 - Final Print/PDF is blocked until the core clinical record is complete.

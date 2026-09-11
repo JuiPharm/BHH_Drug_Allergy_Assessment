@@ -81,3 +81,18 @@ export function validateNaranjoRationales(answers={}){
   }
   return errors;
 }
+
+export function getNaranjoPrerequisites(state={}){
+  const medications=Array.isArray(state.medications)?state.medications:[];
+  const events=Array.isArray(state.events)?state.events:[];
+  const suspectedCount=medications.filter(m=>m?.role==='suspected').length;
+  const eventCount=events.length;
+  return {
+    suspectedCount,
+    eventCount,
+    hasSuspected:suspectedCount>0,
+    hasEvent:eventCount>0,
+    ready:suspectedCount>0&&eventCount>0
+  };
+}
+

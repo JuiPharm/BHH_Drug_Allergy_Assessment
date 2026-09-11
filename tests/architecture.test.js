@@ -33,4 +33,6 @@ test('index enforces no outbound application connections',async()=>{
   const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
   assert.match(html,/connect-src 'none'/);
   assert.match(html,/type="module" src="src\/main\.js"/);
+  assert.match(html,/assets\/bhh-logo\.png/);
+  assert.match(html,/assets\/favicon\.png/);
 });

@@ -9,14 +9,14 @@
   <meta name="robots" content="noindex,nofollow,noarchive" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <title>BHH Drug Allergy Assessment</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
 <a class="skip-link" href="#workspace">Skip to content</a>
 <header class="app-header">
   <div class="brand">
-    <img src="assets/bhh-logo.svg" class="brand-logo" alt="Bangkok Hospital Hat Yai" />
+    <img src="assets/bhh-logo.png" class="brand-logo" alt="Bangkok Hospital Hat Yai" />
     <div><h1>BHH Drug Allergy Assessment</h1><p data-i18n="brandSubtitle">ADR · Drug allergy phenotype · Timeline · Naranjo</p></div>
   </div>
   <div class="header-actions">
@@ -87,7 +87,8 @@
     </section>
 
     <section class="workspace-section" id="naranjoSection">
-      <div class="section-heading"><div><p class="section-kicker">STEP 5</p><h2 data-i18n="naranjoTitle">Naranjo by Drug × ADR pair</h2><p data-i18n="naranjoHelp">Only suspected drugs can be linked to a Naranjo assessment.</p></div><button class="btn btn-secondary" id="addAssessmentBtn">+ <span data-i18n="newAssessment">New assessment</span></button></div>
+      <div class="section-heading"><div><p class="section-kicker">STEP 5</p><h2 data-i18n="naranjoTitle">Naranjo by Drug × ADR pair</h2><p data-i18n="naranjoHelp">Only suspected drugs can be linked to a Naranjo assessment.</p></div><button class="btn btn-secondary" id="addAssessmentBtn" aria-describedby="naranjoPrereq">+ <span data-i18n="newAssessment">New assessment</span></button></div>
+      <div id="naranjoPrereq" class="prereq-callout" role="status" aria-live="polite"></div>
       <div class="assessment-layout"><div><div id="assessmentList" class="assessment-list"></div><div id="assessmentEmpty" class="empty-state compact"><h3 data-i18n="noAssessment">No Naranjo assessment yet</h3></div></div><div class="card assessment-editor" id="assessmentEditor"><div class="editor-placeholder" id="assessmentPlaceholder"><div class="empty-icon">10</div><h3 data-i18n="selectAssessment">Select an assessment</h3></div><div id="assessmentForm" hidden></div></div></div>
     </section>
 
