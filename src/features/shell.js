@@ -1,0 +1,9 @@
+import {$,$$} from '../ui/dom.js';
+import {t,getLang} from '../config/i18n.js';
+import {refreshAssessment} from '../domain/assessment-state.js';
+export function createShellFeature({store}){
+  function readiness(){const state=store.getState();const checks=[state.patient.hn.trim(),state.patient.age.value!=='',state.patient.sex,state.patient.visitDate,state.medications.length>0,state.events.length>0,state.assessments.length>0,state.assessments.length>0&&state.assessments.every(a=>refreshAssessment(a,{touchUpdatedAt:false}).status==='complete'),state.assessments.length>0&&state.assessments.every(a=>state.conclusions.some(c=>c.drugId===a.drugId&&c.eventId===a.eventId&&c.conclusion&&c.relationshipType&&c.reasoning.trim()))];return Math.round(checks.filter(Boolean).length/checks.length*100)}
+  function render(){const state=store.getState(),dirty=store.isDirty();$('#unsavedBadge')?.classList.toggle('dirty',dirty);if($('#unsavedBadge b'))$('#unsavedBadge b').textContent=dirty?t('unsaved'):t('saved');if($('#drugCount'))$('#drugCount').textContent=state.medications.length;if($('#eventCount'))$('#eventCount').textContent=state.events.length;if($('#assessmentCount'))$('#assessmentCount').textContent=state.assessments.length;const p=readiness();if($('#progressPercent'))$('#progressPercent').textContent=`${p}%`;if($('#progressBar'))$('#progressBar').style.width=`${p}%`;if($('#progressHint'))$('#progressHint').textContent=p===100?t('validReady'):(getLang()==='th'?'กรอกข้อมูลตามขั้นตอนและแก้รายการที่ยังไม่ครบ':'Complete the workflow and resolve missing items.');}
+  function init(){document.querySelector('.step-nav')?.addEventListener('click',e=>{const b=e.target.closest('[data-target]');if(!b)return;document.getElementById(b.dataset.target)?.scrollIntoView({behavior:'smooth'});$$('.step-link').forEach(x=>x.classList.toggle('active',x===b))})}
+  return {init,render};
+}

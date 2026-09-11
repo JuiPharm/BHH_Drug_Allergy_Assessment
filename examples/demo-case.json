@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "1.0.0",
+  "application": {
+    "name": "BHH Drug Allergy Assessment",
+    "version": "0.1.0"
+  },
+  "metadata": {
+    "caseId": "DEMO-ADR-001",
+    "status": "draft",
+    "createdAt": "2026-09-10T09:42:13.449Z",
+    "updatedAt": "2026-09-10T09:42:13.449Z"
+  },
+  "patient": {
+    "hn": "DEMO001",
+    "age": {
+      "value": "34",
+      "unit": "years"
+    },
+    "sex": "female",
+    "visitDate": "2026-09-10",
+    "diagnoses": [
+      {
+        "id": "dx-7dcb0f9d-424a-40a3-a2f7-dd83ba7c17ff",
+        "text": "Acute sinusitis"
+      }
+    ],
+    "diagnosisNote": "",
+    "allergyHistory": [
+      {
+        "id": "allergy-4bc0a6b6-4a25-4fff-9b91-0d99da89b6f3",
+        "drug": "No known previous drug allergy",
+        "reaction": "None documented",
+        "approxDate": "",
+        "severity": "mild",
+        "previousExposure": "",
+        "comment": ""
+      }
+    ],
+    "note": ""
+  },
+  "medications": [
+    {
+      "id": "drug-450422e5-41a0-47b1-b483-f76d97e3b689",
+      "genericName": "Amoxicillin/clavulanate",
+      "tradeName": "",
+      "dose": "875/125 mg",
+      "route": "PO",
+      "frequency": "q12h",
+      "startDateTime": "2026-09-08T08:00",
+      "stopDateTime": "2026-09-10T10:00",
+      "role": "suspected",
+      "updatedAt": "2026-09-10T09:42:13.451Z"
+    },
+    {
+      "id": "drug-0118c4bd-f236-43be-af38-7736e8902e5d",
+      "genericName": "Cetirizine",
+      "tradeName": "",
+      "dose": "10 mg",
+      "route": "PO",
+      "frequency": "OD",
+      "startDateTime": "2026-09-10T10:30",
+      "stopDateTime": "",
+      "role": "concomitant",
+      "updatedAt": "2026-09-10T09:42:13.451Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event-f2aae903-498d-4242-b3aa-2afd317ffb2c",
+      "term": "Generalized urticaria",
+      "onsetDateTime": "2026-09-10T09:30",
+      "endDateTime": "2026-09-10T18:00",
+      "timing": "delayed",
+      "phenotype": "urticaria",
+      "phenotypeOther": "",
+      "mechanism": "unknown",
+      "severity": "moderate",
+      "seriousness": [],
+      "outcome": "Recovered",
+      "management": "Stopped suspected drug; antihistamine given",
+      "objectiveEvidence": "Diffuse raised erythematous wheals documented on examination",
+      "clinicalNote": "",
+      "updatedAt": "2026-09-10T09:42:13.451Z"
+    }
+  ],
+  "assessments": [
+    {
+      "id": "assessment-3a6712e1-ae01-4715-8840-15fdff4103ee",
+      "drugId": "drug-450422e5-41a0-47b1-b483-f76d97e3b689",
+      "eventId": "event-f2aae903-498d-4242-b3aa-2afd317ffb2c",
+      "algorithm": "Naranjo ADR Probability Scale",
+      "algorithmVersion": "1981-reviewed-2026-09",
+      "status": "complete",
+      "answers": {
+        "1": {
+          "answer": "yes",
+          "rationale": "Known reaction in reliable drug-allergy literature"
+        },
+        "2": {
+          "answer": "yes",
+          "rationale": "Reaction began after drug exposure"
+        },
+        "3": {
+          "answer": "yes",
+          "rationale": "Improved after drug discontinuation"
+        },
+        "4": {
+          "answer": "unknown",
+          "rationale": "No rechallenge performed"
+        },
+        "5": {
+          "answer": "no",
+          "rationale": "No infection-related exanthem or other likely drug identified"
+        },
+        "6": {
+          "answer": "unknown",
+          "rationale": "No placebo exposure"
+        },
+        "7": {
+          "answer": "unknown",
+          "rationale": "No drug concentration applicable/available"
+        },
+        "8": {
+          "answer": "unknown",
+          "rationale": "No dose-change assessment"
+        },
+        "9": {
+          "answer": "unknown",
+          "rationale": "No reliable previous exposure history"
+        },
+        "10": {
+          "answer": "yes",
+          "rationale": "Objective skin findings documented"
+        }
+      },
+      "score": 7,
+      "classification": "probable",
+      "createdAt": "2026-09-10T09:42:13.451Z",
+      "updatedAt": "2026-09-10T09:42:13.451Z",
+      "snapshot": null,
+      "completed": true,
+      "answeredCount": 10,
+      "provisionalScore": 7,
+      "rationaleErrors": []
+    }
+  ],
+  "clinicalModules": [
+    {
+      "id": "module-e0b17fb4-cdec-411e-a31d-06042987225c",
+      "type": "penfast",
+      "drugId": "drug-450422e5-41a0-47b1-b483-f76d97e3b689",
+      "eventId": "event-f2aae903-498d-4242-b3aa-2afd317ffb2c",
+      "inputs": {
+        "recency": "le5",
+        "severePhenotype": false,
+        "treatment": "yes"
+      },
+      "result": {
+        "score": 3,
+        "category": "moderate",
+        "lowRisk": false
+      },
+      "createdAt": "2026-09-10T09:42:13.451Z",
+      "updatedAt": "2026-09-10T09:42:13.451Z"
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "conclusion-2e921dc3-7fd6-4da7-b2a2-99ea99376b86",
+      "drugId": "drug-450422e5-41a0-47b1-b483-f76d97e3b689",
+      "eventId": "event-f2aae903-498d-4242-b3aa-2afd317ffb2c",
+      "conclusion": "probable",
+      "relationshipType": "allergic",
+      "reasoning": "Urticarial phenotype with compatible exposure chronology and improvement after withdrawal; alternative causes were not identified.",
+      "recommendations": [
+        "avoid_culprit",
+        "refer_allergy_specialist",
+        "further_testing"
+      ],
+      "recommendationNote": "Consider formal penicillin allergy evaluation/delabeling pathway when clinically appropriate.",
+      "updatedAt": "2026-09-10T09:42:13.451Z"
+    }
+  ]
+}

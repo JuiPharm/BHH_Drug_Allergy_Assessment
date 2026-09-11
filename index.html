@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1e376d" />
+  <meta name="description" content="BHH Drug Allergy Assessment — ADR, drug allergy phenotype, timeline and causality assessment." />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <title>BHH Drug Allergy Assessment</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#workspace">Skip to content</a>
+<header class="app-header">
+  <div class="brand">
+    <img src="assets/bhh-logo.svg" class="brand-logo" alt="Bangkok Hospital Hat Yai" />
+    <div><h1>BHH Drug Allergy Assessment</h1><p data-i18n="brandSubtitle">ADR · Drug allergy phenotype · Timeline · Naranjo</p></div>
+  </div>
+  <div class="header-actions">
+    <div class="unsaved-badge" id="unsavedBadge"><span></span><b data-i18n="unsaved">Unsaved</b></div>
+    <div class="lang-toggle" role="group" aria-label="Language"><button type="button" data-lang="th" class="active">TH</button><button type="button" data-lang="en">EN</button></div>
+    <button class="btn btn-ghost" id="importBtn" type="button" data-i18n="importJson">Import JSON</button>
+    <button class="btn btn-ghost" id="exportBtn" type="button" data-i18n="exportJson">Export JSON</button>
+    <button class="btn btn-primary" id="printBtn" type="button" data-i18n="printPdf">Print / PDF</button>
+    <input type="file" id="fileInput" accept=".json,application/json" hidden />
+  </div>
+</header>
+<div class="privacy-banner"><strong data-i18n="privacyTitle">Privacy-first session</strong><span data-i18n="privacyText">Patient data is kept in memory only. Export JSON before closing or refreshing.</span></div>
+
+<main class="app-shell" id="workspace">
+  <aside class="sidebar">
+    <div class="case-chip"><span>Case ID</span><strong id="caseChip">-</strong></div>
+    <nav class="step-nav">
+      <button class="step-link active" data-target="caseSection"><span>1</span><b data-i18n="stepCase">Case</b></button>
+      <button class="step-link" data-target="medSection"><span>2</span><b data-i18n="stepMeds">Medications</b></button>
+      <button class="step-link" data-target="eventSection"><span>3</span><b data-i18n="stepEvents">ADR Events</b></button>
+      <button class="step-link" data-target="timelineSection"><span>4</span><b data-i18n="stepTimeline">Timeline</b></button>
+      <button class="step-link" data-target="naranjoSection"><span>5</span><b>Naranjo</b></button>
+      <button class="step-link" data-target="moduleSection"><span>6</span><b data-i18n="stepModules">Clinical Modules</b></button>
+      <button class="step-link" data-target="conclusionSection"><span>7</span><b data-i18n="stepConclusion">Conclusion</b></button>
+      <button class="step-link" data-target="reportSection"><span>8</span><b data-i18n="stepReport">Report</b></button>
+    </nav>
+    <div class="sidebar-progress"><div><span data-i18n="readiness">Case readiness</span><strong id="progressPercent">0%</strong></div><div class="progress-track"><span id="progressBar"></span></div><p id="progressHint"></p></div>
+    <button class="btn btn-danger-soft btn-block" id="newCaseBtn" data-i18n="newCase">New case</button>
+  </aside>
+
+  <div class="content">
+    <section class="hero-card">
+      <div><p class="eyebrow">BHH PHARMACY · CLINICAL WORKFLOW</p><h2 data-i18n="heroTitle">Structured ADR and drug-allergy assessment designed for pharmacist workflow</h2><p data-i18n="heroText">Separate causality, phenotype, seriousness and pharmacist conclusion while keeping the medication–event timeline visible.</p></div>
+      <div class="hero-stats"><div><strong id="drugCount">0</strong><span data-i18n="drugs">Drugs</span></div><div><strong id="eventCount">0</strong><span data-i18n="events">Events</span></div><div><strong id="assessmentCount">0</strong><span data-i18n="assessments">Assessments</span></div></div>
+    </section>
+
+    <section class="workspace-section" id="caseSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 1</p><h2 data-i18n="caseTitle">Patient & case information</h2><p data-i18n="caseHelp">Only fields required for clinical assessment are collected.</p></div><span class="section-status" id="caseStatus"></span></div>
+      <div class="card">
+        <div class="form-grid cols-4">
+          <label>Case ID<input id="caseId" readonly /></label>
+          <label><span data-i18n="hn">HN</span><input id="patientHn" autocomplete="off" /></label>
+          <label><span data-i18n="age">Age</span><div class="inline-field"><input id="patientAge" type="number" min="0" step="1" /><select id="patientAgeUnit"><option value="years" data-i18n="years">years</option><option value="months" data-i18n="months">months</option><option value="days" data-i18n="days">days</option></select></div></label>
+          <label><span data-i18n="sex">Sex</span><select id="patientSex"><option value="" data-i18n="select">Select</option><option value="male" data-i18n="male">Male</option><option value="female" data-i18n="female">Female</option></select></label>
+          <label><span data-i18n="visitDate">Visit date</span><input id="visitDate" type="date" /></label>
+          <label class="span-3"><span data-i18n="caseNote">Additional clinical note</span><input id="patientNote" autocomplete="off" /></label>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card"><div class="card-head"><div><h3 data-i18n="diagnoses">Diagnoses</h3><p data-i18n="multiItemHelp">Add multiple items as needed.</p></div><button class="btn btn-secondary btn-small" id="addDiagnosisBtn">+ <span data-i18n="add">Add</span></button></div><div id="diagnosisList" class="mini-list"></div><label class="top-gap"><span data-i18n="diagnosisNote">Diagnosis note</span><textarea id="diagnosisNote" rows="2"></textarea></label></div>
+        <div class="card"><div class="card-head"><div><h3 data-i18n="allergyHistory">Previous allergy / ADR history</h3><p data-i18n="multiItemHelp">Add multiple items as needed.</p></div><button class="btn btn-secondary btn-small" id="addAllergyBtn">+ <span data-i18n="add">Add</span></button></div><div id="allergyList" class="mini-list"></div></div>
+      </div>
+    </section>
+
+    <section class="workspace-section" id="medSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 2</p><h2 data-i18n="medTitle">Medication exposure</h2><p data-i18n="medHelp">Mark suspected drugs separately from concomitant drugs.</p></div><button class="btn btn-secondary" id="addMedBtn">+ <span data-i18n="addDrug">Add medication</span></button></div>
+      <div id="medList" class="record-list"></div><div id="medEmpty" class="empty-state"><div class="empty-icon">Rx</div><h3 data-i18n="noMeds">No medications yet</h3></div>
+    </section>
+
+    <section class="workspace-section" id="eventSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 3</p><h2 data-i18n="eventTitle">ADR events & allergy phenotype</h2><p data-i18n="eventHelp">Severity and seriousness are recorded independently.</p></div><button class="btn btn-secondary" id="addEventBtn">+ <span data-i18n="addEvent">Add ADR event</span></button></div>
+      <div id="eventList" class="record-list"></div><div id="eventEmpty" class="empty-state"><div class="empty-icon">!</div><h3 data-i18n="noEvents">No ADR events yet</h3></div>
+    </section>
+
+    <section class="workspace-section" id="timelineSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 4</p><h2 data-i18n="timelineTitle">Clinical timeline</h2><p data-i18n="timelineHelp">Medication exposure and ADR onset are plotted on one chronological axis.</p></div></div>
+      <div class="card timeline-card"><div class="timeline-legend"><span><i class="dot suspected"></i><b data-i18n="suspected">Suspected</b></span><span><i class="dot concomitant"></i><b data-i18n="concomitant">Concomitant</b></span><span><i class="dot adr"></i><b>ADR</b></span></div><div id="timeline"></div></div>
+    </section>
+
+    <section class="workspace-section" id="naranjoSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 5</p><h2 data-i18n="naranjoTitle">Naranjo by Drug × ADR pair</h2><p data-i18n="naranjoHelp">Only suspected drugs can be linked to a Naranjo assessment.</p></div><button class="btn btn-secondary" id="addAssessmentBtn">+ <span data-i18n="newAssessment">New assessment</span></button></div>
+      <div class="assessment-layout"><div><div id="assessmentList" class="assessment-list"></div><div id="assessmentEmpty" class="empty-state compact"><h3 data-i18n="noAssessment">No Naranjo assessment yet</h3></div></div><div class="card assessment-editor" id="assessmentEditor"><div class="editor-placeholder" id="assessmentPlaceholder"><div class="empty-icon">10</div><h3 data-i18n="selectAssessment">Select an assessment</h3></div><div id="assessmentForm" hidden></div></div></div>
+    </section>
+
+    <section class="workspace-section" id="moduleSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 6 · OPTIONAL</p><h2 data-i18n="moduleTitle">Clinical Evaluation Modules</h2><p data-i18n="moduleHelp">Optional calculators — they never replace the primary ADR workflow or pharmacist judgement.</p></div></div>
+      <div class="module-grid" id="moduleCatalog">
+        <article class="module-card"><div class="module-icon">P</div><div><h3>PEN-FAST</h3><p data-i18n="penfastDesc">Penicillin allergy risk stratification.</p></div><button class="btn btn-secondary btn-small" data-module="penfast" data-i18n="useModule">Use module</button></article>
+        <article class="module-card"><div class="module-icon">R</div><div><h3>RegiSCAR</h3><p data-i18n="regiscarDesc">Diagnostic scoring support for DRESS.</p></div><button class="btn btn-secondary btn-small" data-module="regiscar" data-i18n="useModule">Use module</button></article>
+        <article class="module-card"><div class="module-icon">A</div><div><h3>ALDEN</h3><p data-i18n="aldenDesc">Per-drug causality support in SJS/TEN.</p></div><button class="btn btn-secondary btn-small" data-module="alden" data-i18n="useModule">Use module</button></article>
+        <article class="module-card"><div class="module-icon">S</div><div><h3>Schumock & Thornton</h3><p data-i18n="schumockDesc">ADR preventability assessment.</p></div><button class="btn btn-secondary btn-small" data-module="schumock" data-i18n="useModule">Use module</button></article>
+      </div>
+      <div class="clinical-note"><strong data-i18n="moduleSafetyTitle">Clinical guardrail</strong><span data-i18n="moduleSafetyText">Module outputs are decision support only and are not auto-translated into allergy labels, challenge orders or final conclusions.</span></div>
+      <div id="moduleResults" class="record-list top-gap"></div>
+    </section>
+
+    <section class="workspace-section" id="conclusionSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 7</p><h2 data-i18n="conclusionTitle">Final pharmacist conclusion</h2><p data-i18n="conclusionHelp">Clinical conclusion is intentionally separate from Naranjo probability.</p></div></div>
+      <div id="conclusionList" class="record-list"></div><div id="conclusionEmpty" class="empty-state compact"><h3 data-i18n="conclusionEmpty">Create a Naranjo assessment first</h3></div>
+    </section>
+
+    <section class="workspace-section" id="reportSection">
+      <div class="section-heading"><div><p class="section-kicker">STEP 8</p><h2 data-i18n="reportTitle">Validation, summary & report</h2><p data-i18n="reportHelp">Final print is blocked until required clinical data are complete.</p></div><div class="button-row"><button class="btn btn-ghost" id="copyThBtn">Copy TH</button><button class="btn btn-ghost" id="copyEnBtn">Copy EN</button></div></div>
+      <div id="validationPanel" class="validation-panel"></div>
+      <div id="reportSheet" class="report-sheet"></div>
+    </section>
+  </div>
+</main>
+
+<dialog id="formDialog"><form method="dialog" id="dialogForm"><div class="dialog-head"><div><p class="section-kicker" id="dialogKicker"></p><h2 id="dialogTitle"></h2></div><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><div id="dialogBody"></div><div class="dialog-actions"><button class="btn btn-ghost" value="cancel" data-i18n="cancel">Cancel</button><button class="btn btn-primary" id="dialogSave" value="default" type="button" data-i18n="save">Save</button></div></form></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

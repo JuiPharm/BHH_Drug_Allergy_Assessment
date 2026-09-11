@@ -1,0 +1,20 @@
+BHH Drug Allergy Assessment
+Release: 1.0.0
+Architecture: Modular static ES Modules
+Build date: 2026-09-10
+Automated tests: 23 passed / 0 failed
+Production entry: src/main.js
+Optional engines: src/clinical/penfast.js, regiscar.js, alden.js, schumock.js
+Runtime external dependencies: none
+Clinical browser persistence: none (language preference only)
+
+Key SHA-256 hashes:
+feafc16d9f5445de4a042c1f0cb9b26f475473a33a9f8be79149c72b2ae5c19e  index.html
+ae780c4c1e9c649348f4bbb2841c296c5fa00b0803b3b0471e39c10641597014  assets/styles.css
+c229030c1ceccdcf833e4cffda093dd3985a338b36ef6e358016fc88b1fc0cb3  src/main.js
+70cdd2b11ec4dc169785b01a567d8e90bf0e6aa785499fb96056f86873b15901  src/domain/naranjo.js
+5d48afa6f0a0b9de5071167a07b32a4313639014519bfe6323424dc9ab8e8c71  src/domain/validation.js
+0d3eb61a4ffdd72c4156aa872a1cb6add58c51e7d9779e899294e8fd0a9e56c0  src/clinical/penfast.js
+f4cee17177957509fd689cf06ca847e68b738a76296367a88608fde53b180a81  src/clinical/regiscar.js
+ec175f39b4b71c4142a0a48c7ea3759fe31ec534f0d13c983d0c7e86d937f23e  src/clinical/alden.js
+b67892e75a972c3905318670c22c73521b6dd51007cda3a6c794d27f79ee3a01  src/clinical/schumock.js
